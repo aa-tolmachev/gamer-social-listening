@@ -60,7 +60,8 @@ def authorization():
 
         #авторизация пользователя
         resp = registrationauth.auth_user(resp,json_params)
-        
+        print(5)
+
     except Exception as e: 
         print(e)
         status = 400

@@ -78,6 +78,7 @@ def reg_new_user(resp,reg_params):
         cur.close()
         conn.close()
     else:
+        print(41)
         resp['message'] = 'user exist'
 
     return resp
