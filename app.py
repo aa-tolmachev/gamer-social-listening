@@ -1,6 +1,7 @@
 from flask import Flask
 from flask import request
 import requests
+from flask import jsonify
 
 import os
 import json
@@ -41,7 +42,7 @@ def registration():
         status = 400
         resp['message'] = e
         
-    return resp 
+    return jsonify(resp)
 
 # авторизация пользователя
 # проверяем что пользователя нет, далее регистрируем
@@ -66,7 +67,7 @@ def authorization():
         status = 400
         resp['message'] = e
         
-    return resp 
+    return jsonify(resp)
 
         
 
