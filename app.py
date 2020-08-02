@@ -24,7 +24,7 @@ def hello():
 #{"message":"ok"} - "ok" , "user exist" , error text
 @application.route("/registration" , methods=['GET', 'POST'])  
 def registration():
-    response = {'message':'ok'}
+    resp = {'message':'ok'}
     status = 200
     try:
         getData = request.get_data()
@@ -32,15 +32,16 @@ def registration():
         print(json_params)
 
         #регистрация пользователя
-        #response = registrationauth.reg_new_user(response,json_params)
+        print(1)
+        resp = registrationauth.reg_new_user(resp,json_params)
 
         
     except Exception as e: 
         print(e)
         status = 400
-        response['message'] = e
+        resp['message'] = e
         
-    return response , status
+    return resp , status
 
 # авторизация пользователя
 # проверяем что пользователя нет, далее регистрируем
@@ -50,7 +51,7 @@ def registration():
 #{"message":"ok"} - "ok" , "incorrect {}" 
 @application.route("/authorization" , methods=['GET', 'POST'])  
 def authorization():
-    response = {'message':'ok'}
+    resp = {'message':'ok'}
     status = 200
     try:
         getData = request.get_data()
@@ -58,14 +59,14 @@ def authorization():
         print(json_params)
 
         #авторизация пользователя
-        response = registrationauth.auth_user(response,json_params)
+        resp = registrationauth.auth_user(resp,json_params)
         
     except Exception as e: 
         print(e)
         status = 400
-        response['message'] = e
+        resp['message'] = e
         
-    return response , status
+    return resp , status
 
         
 

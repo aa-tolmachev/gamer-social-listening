@@ -23,7 +23,7 @@ def now_str():
 #проверяем есть ли такой пользователь
 def is_exist(reg_params):
 
-    response = {'user_exist' : 0}
+    resp = {'user_exist' : 0}
 
     #создаем подключение к PSQL
     conn = psycopg2.connect("dbname='%(dbname)s' port='%(port)s' user='%(user)s' host='%(host)s' password='%(password)s'" % PSQL_heroku_keys)
@@ -39,17 +39,17 @@ def is_exist(reg_params):
     df_current_users = pd.DataFrame(cur.fetchall(), columns=[desc[0] for desc in cur.description])
 
     if df_current_users.shape[0] != 0:
-        response['user_exist'] = 1
+        resp['user_exist'] = 1
 
     cur.close()
     conn.close()
 
-    return response
+    return resp
  
 
 #регистрируем нового пользователя
 #{"email":"test@mail.ru","expiresIn":"3600","idToken":"abc","kind":"aabbcc","localId":"qwe","refreshToken":"qazwsx"}
-def reg_new_user(response,reg_params):
+def reg_new_user(resp,reg_params):
 
     email = reg_params['email']
     expiresIn = int(reg_params['expiresIn'])
@@ -57,35 +57,35 @@ def reg_new_user(response,reg_params):
     kind = reg_params['kind']
     localId = reg_params['localId']
     refreshToken = reg_params['refreshToken']
-
+    print(2)
     #получаем дату в строке
     current_str = now_str()
 
     check_user_exist = is_exist(reg_params)
-
+    print(3)
     if check_user_exist['user_exist'] == 0:
-
+        print(31)
         #создаем подключение к PSQL
         conn = psycopg2.connect("dbname='%(dbname)s' port='%(port)s' user='%(user)s' host='%(host)s' password='%(password)s'" % PSQL_heroku_keys)
         # создаем запрос
         cur = conn.cursor()
-
+        print(4)
         #создаем запись в строчке последнего шага
         cur.execute(f"INSERT INTO public.user (email , expiresIn, idToken, kind, localId, refreshToken)  VALUES ('{email}', {expiresIn} , '{idToken}' , '{kind}' , '{localId}' , '{refreshToken}')"  )
         conn.commit()
-
+        print(5)
         cur.close()
         conn.close()
     else:
-        response['message'] = 'user exist'
+        resp['message'] = 'user exist'
 
-    return response
+    return resp
  
 
 #авторизуем пользователя если совпадают параметры
 # если не совпадает email , idToken , kind , localId то отказ
 #{"displayName" :"",  "email":"test@mail.ru","expiresIn":"3600","idToken":"abc","kind":"aabbcc","localId":"qwe","refreshToken":"qazwsx", "registered":True}
-def auth_user(response,reg_params):
+def auth_user(resp,reg_params):
 
     email = reg_params['email']
     expiresIn = int(reg_params['expiresIn'])
@@ -101,7 +101,7 @@ def auth_user(response,reg_params):
     check_user_exist = is_exist(reg_params)
 
     if check_user_exist['user_exist'] == 0:
-        response['message'] = 'user not exist'
+        resp['message'] = 'user not exist'
     else:
        #создаем подключение к PSQL
         conn = psycopg2.connect("dbname='%(dbname)s' port='%(port)s' user='%(user)s' host='%(host)s' password='%(password)s'" % PSQL_heroku_keys)
@@ -114,12 +114,12 @@ def auth_user(response,reg_params):
         df_current_users = pd.DataFrame(cur.fetchall(), columns=[desc[0] for desc in cur.description])
 
         if df_current_users.shape[0] == 0:
-            response['message'] = 'email or idToken or localId not correct'
+            resp['message'] = 'email or idToken or localId not correct'
 
         cur.close()
         conn.close()
 
         
 
-    return response
+    return resp
  
