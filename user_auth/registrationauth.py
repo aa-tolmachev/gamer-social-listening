@@ -57,28 +57,27 @@ def reg_new_user(resp,reg_params):
     kind = reg_params['kind']
     localId = reg_params['localId']
     refreshToken = reg_params['refreshToken']
-    print(2)
+
     #получаем дату в строке
     current_str = now_str()
 
     check_user_exist = is_exist(reg_params)
     print(check_user_exist)
-    print(3)
+
     if check_user_exist == 0:
-        print(31)
+
         #создаем подключение к PSQL
         conn = psycopg2.connect("dbname='%(dbname)s' port='%(port)s' user='%(user)s' host='%(host)s' password='%(password)s'" % PSQL_heroku_keys)
         # создаем запрос
         cur = conn.cursor()
-        print(4)
+
         #создаем запись в строчке последнего шага
         cur.execute(f"INSERT INTO public.user (email , expiresIn, idToken, kind, localId, refreshToken)  VALUES ('{email}', {expiresIn} , '{idToken}' , '{kind}' , '{localId}' , '{refreshToken}')"  )
         conn.commit()
-        print(5)
+
         cur.close()
         conn.close()
     else:
-        print(41)
         resp['message'] = 'user exist'
 
     return resp

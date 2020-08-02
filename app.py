@@ -41,7 +41,7 @@ def registration():
         status = 400
         resp['message'] = e
         
-    return resp , status
+    return resp 
 
 # авторизация пользователя
 # проверяем что пользователя нет, далее регистрируем
@@ -60,14 +60,13 @@ def authorization():
 
         #авторизация пользователя
         resp = registrationauth.auth_user(resp,json_params)
-        print(5)
 
     except Exception as e: 
         print(e)
         status = 400
         resp['message'] = e
         
-    return resp , status
+    return resp 
 
         
 
