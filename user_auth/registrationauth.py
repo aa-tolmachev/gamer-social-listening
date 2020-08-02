@@ -44,7 +44,7 @@ def is_exist(reg_params):
     cur.close()
     conn.close()
 
-    return resp
+    return resp['user_exist']
  
 
 #регистрируем нового пользователя
@@ -62,8 +62,9 @@ def reg_new_user(resp,reg_params):
     current_str = now_str()
 
     check_user_exist = is_exist(reg_params)
+    print(check_user_exist)
     print(3)
-    if check_user_exist['user_exist'] == 0:
+    if check_user_exist == 0:
         print(31)
         #создаем подключение к PSQL
         conn = psycopg2.connect("dbname='%(dbname)s' port='%(port)s' user='%(user)s' host='%(host)s' password='%(password)s'" % PSQL_heroku_keys)
@@ -100,7 +101,7 @@ def auth_user(resp,reg_params):
 
     check_user_exist = is_exist(reg_params)
 
-    if check_user_exist['user_exist'] == 0:
+    if check_user_exist == 0:
         resp['message'] = 'user not exist'
     else:
        #создаем подключение к PSQL
