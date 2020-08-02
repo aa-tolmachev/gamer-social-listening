@@ -32,7 +32,7 @@ def registration():
         print(json_params)
 
         #регистрация пользователя
-        response = registrationauth.reg_new_user(response,json_params)
+        #response = registrationauth.reg_new_user(response,json_params)
 
         
     except Exception as e: 
