@@ -116,7 +116,7 @@ def auth_user(resp,reg_params):
         cur = conn.cursor()
 
         #смотрим есть ли подобный пользователь
-        cur.execute("SELECT * from public.user where email = '%(user_email)s' and password = '%(password)s' and localId = '%(localId)s'" % {'user_email' : email,'password': password} )
+        cur.execute("SELECT * from public.user where email = '%(user_email)s' and password = '%(password)s' " % {'user_email' : email,'password': password} )
         #получаем данные
         df_current_users = pd.DataFrame(cur.fetchall(), columns=[desc[0] for desc in cur.description])
 
