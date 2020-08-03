@@ -21,6 +21,7 @@ def hello():
 # проверяем что пользователя нет, далее регистрируем
 # input
 #{"email":"test@mail.ru","expiresIn":"3600","idToken":"abc","kind":"aabbcc","localId":"qwe","refreshToken":"qazwsx"}
+#{"email":"test@mail.ru","password":"qwer"}
 # output
 #{"message":"ok"} - "ok" , "user exist" , error text
 @application.route("/registration" , methods=['GET', 'POST'])  
@@ -33,7 +34,6 @@ def registration():
         print(json_params)
 
         #регистрация пользователя
-        print(1)
         resp = registrationauth.reg_new_user(resp,json_params)
 
         
@@ -48,6 +48,7 @@ def registration():
 # проверяем что пользователя нет, далее регистрируем
 # input
 #{"displayName" :"",  "email":"test@mail.ru","expiresIn":"3600","idToken":"abc","kind":"aabbcc","localId":"qwe","refreshToken":"qazwsx", "registered":True}
+#{"email":"test@mail.ru","password":"qwer"}
 # output
 #{"message":"ok"} - "ok" , "incorrect {}" 
 @application.route("/authorization" , methods=['GET', 'POST'])  
