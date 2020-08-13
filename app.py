@@ -37,6 +37,7 @@ def registration():
     status = 200
     try:
         getData = request.get_data()
+        print(getData)
         json_params = json.loads(getData) 
         print(json_params)
 
