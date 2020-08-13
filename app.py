@@ -1,3 +1,5 @@
+from flask_cors import CORS, cross_origin
+
 from flask import Flask
 from flask import request
 import requests
@@ -11,9 +13,12 @@ import traceback
 from user_auth import registrationauth
 
 application = Flask(__name__)
+cors = CORS(application)
+application.config['CORS_HEADERS'] = 'Content-Type'
 
 # тестовый вывод
 @application.route("/")  
+@cross_origin()
 def hello():
     return "Hello World!"
 
@@ -25,6 +30,7 @@ def hello():
 # output
 #{"message":"ok"} - "ok" , "user exist" , error text
 @application.route("/registration" , methods=['GET', 'POST'])  
+@cross_origin()
 def registration():
     resp = {'message':'ok'}
     status = 200
@@ -52,6 +58,7 @@ def registration():
 # output
 #{"message":"ok"} - "ok" , "incorrect {}" 
 @application.route("/authorization" , methods=['GET', 'POST'])  
+@cross_origin()
 def authorization():
     resp = {'message':'ok'}
     status = 200

@@ -15,3 +15,4 @@ telebot
 pyTelegramBotAPI
 matplotlib
 numpy
+Flask-Cors==3.0.8
