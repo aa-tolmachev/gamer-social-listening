@@ -5,6 +5,8 @@ from flask import request
 import requests
 from flask import jsonify
 
+from flask_cors import CORS, cross_origin
+
 import os
 import json
 from ast import literal_eval
@@ -13,6 +15,13 @@ import traceback
 from user_auth import registrationauth
 
 application = Flask(__name__)
+cors = CORS(application, resources = {
+                            r"/*":{
+                                "origins" : "*"
+                                }
+                            }
+           )
+
 
 # тестовый вывод
 @application.route("/")  
@@ -53,9 +62,6 @@ def registration():
       
     response = jsonify(resp)
     response.headers.add('Access-Control-Allow-Origin', '*')
-    response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
-    response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
-    response.headers.add('Access-Control-Allow-Credentials', 'true')
     
     return response
 
