@@ -1,4 +1,4 @@
-from flask_cors import CORS, cross_origin
+
 
 from flask import Flask
 from flask import request
@@ -13,14 +13,16 @@ import traceback
 from user_auth import registrationauth
 
 application = Flask(__name__)
-cors = CORS(application)
-application.config['CORS_HEADERS'] = 'Content-Type'
 
 # тестовый вывод
 @application.route("/")  
-@cross_origin()
 def hello():
-    return "Hello World!"
+    resp = {'message':"Hello World!"}
+    
+    response = jsonify(resp)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    
+    return response
 
 # регистрация пользователя
 # проверяем что пользователя нет, далее регистрируем
@@ -30,7 +32,6 @@ def hello():
 # output
 #{"message":"ok"} - "ok" , "user exist" , error text
 @application.route("/registration" , methods=['GET', 'POST'])  
-@cross_origin()
 def registration():
     resp = {'message':'ok'}
     status = 200
@@ -42,13 +43,17 @@ def registration():
         #регистрация пользователя
         resp = registrationauth.reg_new_user(resp,json_params)
 
+
         
     except Exception as e: 
         print(e)
         status = 400
         resp['message'] = e
-        
-    return jsonify(resp)
+      
+    response = jsonify(resp)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    
+    return response
 
 # авторизация пользователя
 # проверяем что пользователя нет, далее регистрируем
@@ -58,7 +63,6 @@ def registration():
 # output
 #{"message":"ok"} - "ok" , "incorrect {}" 
 @application.route("/authorization" , methods=['GET', 'POST'])  
-@cross_origin()
 def authorization():
     resp = {'message':'ok'}
     status = 200
@@ -75,7 +79,10 @@ def authorization():
         status = 400
         resp['message'] = e
         
-    return jsonify(resp)
+    response = jsonify(resp)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+        
+    return response
 
         
 
