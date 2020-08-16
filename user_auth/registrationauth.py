@@ -110,7 +110,8 @@ def auth_user(resp,reg_params):
     if check_user_exist == 0:
         resp['message'] = 'user not exist'
     else:
-       #создаем подключение к PSQL
+        resp['isLogin'] = True
+        #создаем подключение к PSQL
         conn = psycopg2.connect("dbname='%(dbname)s' port='%(port)s' user='%(user)s' host='%(host)s' password='%(password)s'" % PSQL_heroku_keys)
         # создаем запрос
         cur = conn.cursor()
@@ -121,6 +122,7 @@ def auth_user(resp,reg_params):
         df_current_users = pd.DataFrame(cur.fetchall(), columns=[desc[0] for desc in cur.description])
 
         if df_current_users.shape[0] == 0:
+            resp['isLogin'] = False
             resp['message'] = 'password not correct'
 
         cur.close()

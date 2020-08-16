@@ -53,7 +53,6 @@ def registration():
         #регистрация пользователя
         resp = registrationauth.reg_new_user(resp,json_params)
 
-
         
     except Exception as e: 
         print(e)
@@ -74,7 +73,9 @@ def registration():
 #{"message":"ok"} - "ok" , "incorrect {}" 
 @application.route("/authorization" , methods=['GET', 'POST'])  
 def authorization():
-    resp = {'message':'ok'}
+    resp = {'message':'ok'
+            ,'isLogin':False}
+
     status = 200
     try:
         getData = request.get_data()
